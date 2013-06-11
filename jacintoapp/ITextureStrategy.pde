@@ -3,4 +3,5 @@ interface ITextureStrategy{
   void update();
   color getColorFrom();
   color getColorTo();
+  int getPhase();
 }

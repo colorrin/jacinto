@@ -1,30 +1,32 @@
-class RayitasStrategy implements ITextureStrategy{
+class PuntitosStrategy implements ITextureStrategy{
+  
+  color _from;
+  color _to;
   
   int _currentPhase;
   
   int _step;
   int _middleBaseStep;
   
-  color _from;
-  color _to;
-
-  ArrayList<Rayita> _rayitas;
+  ArrayList<Puntito> _puntitos;
 
   Camera _camera;
   
-  RayitasStrategy(){
+  PuntitosStrategy(){
+    
   }
   
   void intro(color from){
-    _from = from;
+    _from = from;  
+    
     _to = randomColor();
     _step = 0;
     
-    createRayitas();
+    createPuntitos();
     
-   _currentPhase = INTRO_PHASE;
+    _currentPhase = INTRO_PHASE;
   
-   _camera = new Camera(0, 0, RAYITA_CONSTANTS.MAX_ZOOM); 
+    _camera = new Camera(0, 0, P_CONSTANTS.MAX_ZOOM);
   }
   
   void update(){
@@ -43,14 +45,14 @@ class RayitasStrategy implements ITextureStrategy{
     
     translate(WIDTH /2, HEIGHT/2);
     rotate(radians(_step));
-
-    for(int i=0; i < _rayitas.size(); i++){
-      _rayitas.get(i).draw(_camera); 
+    
+    for(int i=0; i < _puntitos.size(); i++){
+      _puntitos.get(i).draw(_camera); 
     }
   }
   
   void introUpdate(){
-    _camera.setZoom(_camera.getZoom()-RAYITA_CONSTANTS.ZOOM_SPEED);
+    _camera.setZoom(_camera.getZoom()-P_CONSTANTS.ZOOM_SPEED);
     if(_camera.getZoom()<=1){
       _currentPhase = MIDDLE_PHASE;
       _camera.setZoom(1);
@@ -59,7 +61,7 @@ class RayitasStrategy implements ITextureStrategy{
   }
   
   void middleUpdate(){
-    if(_step-_middleBaseStep > RAYITA_CONSTANTS.MIDDLE_LOOPS){
+    if(_step-_middleBaseStep > P_CONSTANTS.MIDDLE_LOOPS){
       _currentPhase = OUTRO_PHASE;
     }  
   }
@@ -68,9 +70,9 @@ class RayitasStrategy implements ITextureStrategy{
     if(_camera.getX() < 110){
       _camera.setX(_camera.getX()+1); 
     }
-    _camera.setZoom(_camera.getZoom()+RAYITA_CONSTANTS.ZOOM_SPEED);
+    _camera.setZoom(_camera.getZoom()+P_CONSTANTS.ZOOM_SPEED);
     
-    if(_camera.getZoom() >= RAYITA_CONSTANTS.MAX_ZOOM){
+    if(_camera.getZoom() == P_CONSTANTS.MAX_ZOOM){
       _currentPhase = FINISHED_PHASE;  
     }
   }
@@ -82,19 +84,19 @@ class RayitasStrategy implements ITextureStrategy{
   color getColorTo(){
     return _to;  
   }
- 
+
   int getPhase(){
     return _currentPhase;  
   }
-  
-  void createRayitas(){
-    _rayitas = new ArrayList<Rayita>();
     
-    int rayitasAmt = WIDTH * 2 / RAYITA_CONSTANTS.RAYITA_WIDTH;
+  void createPuntitos(){
+    _puntitos = new ArrayList<Puntito>();
     
-    for(int i = 0; i < rayitasAmt; i++){
+    int puntitosAmt = WIDTH * 2 / P_CONSTANTS.PUNTITO_WIDTH;
+    
+    for(int i = 0; i < puntitosAmt; i++){
        if(i%2 == 1){
-         _rayitas.add(new Rayita(i * RAYITA_CONSTANTS.RAYITA_WIDTH - WIDTH, 0, _to));
+         _puntitos.add(new Puntito(i * P_CONSTANTS.PUNTITO_WIDTH - WIDTH, 0, _to));
        }
     }  
 
